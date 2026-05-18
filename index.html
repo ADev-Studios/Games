@@ -6,16 +6,29 @@
   <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body class="theme-blue">
 
+  <!-- HERO BANNER -->
   <header class="hero">
-    <h1>ADev Games Marketplace</h1>
-    <p>Download games created by ADev Studios</p>
+    <div class="hero-content">
+      <h1>ADev Games Marketplace</h1>
+      <p>Discover and download games created by ADev Studios</p>
+    </div>
+
+    <button id="theme-toggle" class="theme-btn">Switch Theme</button>
   </header>
 
-  <main>
+  <!-- FEATURED SECTION -->
+  <section class="featured-section">
+    <h2 class="section-title">Featured</h2>
+    <div id="featured-row" class="featured-row"></div>
+  </section>
+
+  <!-- ALL GAMES -->
+  <section class="games-section">
+    <h2 class="section-title">All Games</h2>
     <div id="game-grid" class="game-grid"></div>
-  </main>
+  </section>
 
   <footer>
     <p>© 2026 ADev Studios</p>

@@ -1,98 +1,155 @@
-/* GLOBAL */
+/* ============================
+   GLOBAL
+============================ */
 body {
   margin: 0;
   font-family: "Segoe UI", Arial, sans-serif;
+  transition: background .3s ease, color .3s ease;
+}
+
+/* THEMES */
+body.theme-blue {
+  background: #0a0f1c;
+  color: #e6e6e6;
+}
+
+body.theme-dark {
   background: #0d0d0d;
-  color: #fff;
+  color: #e6e6e6;
 }
 
-/* HERO HEADER */
+body.theme-light {
+  background: #f4f7ff;
+  color: #111;
+}
+
+/* ============================
+   HERO BANNER
+============================ */
 .hero {
-  text-align: center;
-  padding: 60px 20px;
-  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
-  border-bottom: 2px solid #222;
+  background: linear-gradient(135deg, #003cff, #001a66);
+  padding: 80px 40px;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.hero h1 {
+.hero-content h1 {
   font-size: 3rem;
   margin: 0;
 }
 
-.hero p {
-  margin-top: 10px;
+.hero-content p {
   font-size: 1.2rem;
-  color: #bbb;
+  opacity: 0.9;
 }
 
-/* GRID */
+/* THEME BUTTON */
+.theme-btn {
+  padding: 12px 20px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-size: 1rem;
+  backdrop-filter: blur(8px);
+  transition: background .2s ease;
+}
+
+.theme-btn:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ============================
+   SECTION TITLES
+============================ */
+.section-title {
+  font-size: 1.8rem;
+  margin: 30px 40px 10px;
+  color: #7ab4ff;
+}
+
+/* ============================
+   FEATURED ROW (Xbox style)
+============================ */
+.featured-row {
+  display: flex;
+  overflow-x: auto;
+  gap: 20px;
+  padding: 0 40px 20px;
+}
+
+.featured-card {
+  min-width: 420px;
+  height: 240px;
+  border-radius: 16px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  cursor: pointer;
+  transition: transform .2s ease;
+}
+
+.featured-card:hover {
+  transform: scale(1.05);
+}
+
+.featured-overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 20px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.8));
+  border-radius: 0 0 16px 16px;
+}
+
+.featured-overlay h3 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+
+/* ============================
+   GAME GRID (Xbox tiles)
+============================ */
 .game-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 30px;
-  padding: 40px;
-  max-width: 1400px;
-  margin: auto;
+  padding: 20px 40px 60px;
 }
 
-/* GAME CARD */
 .game-card {
-  background: #1a1a1a;
+  background: rgba(255,255,255,0.06);
   border-radius: 14px;
   padding: 16px;
-  box-shadow: 0 0 18px rgba(0,0,0,0.4);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255,255,255,0.1);
   transition: transform .2s ease, box-shadow .2s ease;
-  position: relative;
-  overflow: hidden;
-}
-
-/* Shine effect */
-.game-card::before {
-  content: "";
-  position: absolute;
-  top: -100%;
-  left: -100%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    120deg,
-    transparent 0%,
-    rgba(255,255,255,0.08) 50%,
-    transparent 100%
-  );
-  transform: rotate(25deg);
-  transition: opacity .3s ease;
-  opacity: 0;
-}
-
-.game-card:hover::before {
-  opacity: 1;
 }
 
 .game-card:hover {
   transform: translateY(-6px);
-  box-shadow: 0 0 28px rgba(0,0,0,0.6);
+  box-shadow: 0 0 20px rgba(0,0,0,0.6);
 }
 
-/* THUMBNAIL */
 .game-thumb {
   width: 100%;
-  height: 160px;
-  object-fit: cover;
+  height: 150px;
   border-radius: 10px;
+  object-fit: cover;
   margin-bottom: 12px;
 }
 
-/* TEXT */
 .game-card h2 {
-  margin: 6px 0 4px 0;
-  font-size: 1.3rem;
+  margin: 6px 0;
+  font-size: 1.2rem;
 }
 
 .game-card p {
-  font-size: 0.95rem;
-  color: #ccc;
-  min-height: 40px;
+  font-size: 0.9rem;
+  opacity: 0.8;
 }
 
 /* BUTTONS */
@@ -119,5 +176,5 @@ body {
   text-align: center;
   padding: 60px;
   font-size: 1.3rem;
-  color: #aaa;
+  opacity: 0.7;
 }

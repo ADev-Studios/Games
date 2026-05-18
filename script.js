@@ -1,5 +1,25 @@
+// THEME TOGGLE
+const themeBtn = document.getElementById("theme-toggle");
+
+themeBtn.onclick = () => {
+  const body = document.body;
+
+  if (body.classList.contains("theme-blue")) {
+    body.classList.replace("theme-blue", "theme-dark");
+    themeBtn.textContent = "Switch to Light Theme";
+  } else if (body.classList.contains("theme-dark")) {
+    body.classList.replace("theme-dark", "theme-light");
+    themeBtn.textContent = "Switch to Blue Theme";
+  } else {
+    body.classList.replace("theme-light", "theme-blue");
+    themeBtn.textContent = "Switch to Dark Theme";
+  }
+};
+
+// MARKETPLACE LOADER
 async function loadMarketplace() {
   const grid = document.getElementById("game-grid");
+  const featured = document.getElementById("featured-row");
 
   let games = [];
   try {
@@ -15,6 +35,22 @@ async function loadMarketplace() {
     return;
   }
 
+  // FEATURED (first 3 games)
+  games.slice(0, 3).forEach(game => {
+    const card = document.createElement("div");
+    card.className = "featured-card";
+    card.style.backgroundImage = `url(${game.thumbnail})`;
+
+    card.innerHTML = `
+      <div class="featured-overlay">
+        <h3>${game.name}</h3>
+      </div>
+    `;
+
+    featured.appendChild(card);
+  });
+
+  // ALL GAMES GRID
   games.forEach(game => {
     const card = document.createElement("div");
     card.className = "game-card";
