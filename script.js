@@ -6,13 +6,13 @@ themeBtn.onclick = () => {
 
   if (body.classList.contains("theme-blue")) {
     body.classList.replace("theme-blue", "theme-dark");
-    themeBtn.textContent = "Switch to Light Theme";
+    themeBtn.textContent = "Light";
   } else if (body.classList.contains("theme-dark")) {
     body.classList.replace("theme-dark", "theme-light");
-    themeBtn.textContent = "Switch to Blue Theme";
+    themeBtn.textContent = "Blue";
   } else {
     body.classList.replace("theme-light", "theme-blue");
-    themeBtn.textContent = "Switch to Dark Theme";
+    themeBtn.textContent = "Dark";
   }
 };
 
@@ -25,7 +25,7 @@ async function loadMarketplace() {
   try {
     const res = await fetch("index.json");
     games = await res.json();
-  } catch (err) {
+  } catch {
     grid.innerHTML = "<div class='empty-message'>Failed to load marketplace.</div>";
     return;
   }
@@ -35,7 +35,7 @@ async function loadMarketplace() {
     return;
   }
 
-  // FEATURED (first 3 games)
+  // FEATURED (first 3)
   games.slice(0, 3).forEach(game => {
     const card = document.createElement("div");
     card.className = "featured-card";
