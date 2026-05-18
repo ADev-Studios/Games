@@ -6,13 +6,10 @@ themeBtn.onclick = () => {
 
   if (body.classList.contains("theme-blue")) {
     body.classList.replace("theme-blue", "theme-dark");
-    themeBtn.textContent = "Light";
-  } else if (body.classList.contains("theme-dark")) {
-    body.classList.replace("theme-dark", "theme-light");
-    themeBtn.textContent = "Blue";
+    themeBtn.textContent = "Blue Theme";
   } else {
-    body.classList.replace("theme-light", "theme-blue");
-    themeBtn.textContent = "Dark";
+    body.classList.replace("theme-dark", "theme-blue");
+    themeBtn.textContent = "Dark Theme";
   }
 };
 
