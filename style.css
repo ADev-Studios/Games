@@ -1,0 +1,123 @@
+/* GLOBAL */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Arial, sans-serif;
+  background: #0d0d0d;
+  color: #fff;
+}
+
+/* HERO HEADER */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background: linear-gradient(180deg, #1a1a1a, #0d0d0d);
+  border-bottom: 2px solid #222;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  margin: 0;
+}
+
+.hero p {
+  margin-top: 10px;
+  font-size: 1.2rem;
+  color: #bbb;
+}
+
+/* GRID */
+.game-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+  padding: 40px;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* GAME CARD */
+.game-card {
+  background: #1a1a1a;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 0 18px rgba(0,0,0,0.4);
+  transition: transform .2s ease, box-shadow .2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Shine effect */
+.game-card::before {
+  content: "";
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255,255,255,0.08) 50%,
+    transparent 100%
+  );
+  transform: rotate(25deg);
+  transition: opacity .3s ease;
+  opacity: 0;
+}
+
+.game-card:hover::before {
+  opacity: 1;
+}
+
+.game-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 0 28px rgba(0,0,0,0.6);
+}
+
+/* THUMBNAIL */
+.game-thumb {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 10px;
+  margin-bottom: 12px;
+}
+
+/* TEXT */
+.game-card h2 {
+  margin: 6px 0 4px 0;
+  font-size: 1.3rem;
+}
+
+.game-card p {
+  font-size: 0.95rem;
+  color: #ccc;
+  min-height: 40px;
+}
+
+/* BUTTONS */
+.download-btn {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 600;
+  margin-top: 10px;
+  background: #0078ff;
+  color: white;
+  transition: opacity .15s ease;
+}
+
+.download-btn:hover {
+  opacity: 0.85;
+}
+
+/* EMPTY MESSAGE */
+.empty-message {
+  text-align: center;
+  padding: 60px;
+  font-size: 1.3rem;
+  color: #aaa;
+}

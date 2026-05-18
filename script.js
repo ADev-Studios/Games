@@ -6,7 +6,12 @@ async function loadMarketplace() {
     const res = await fetch("index.json");
     games = await res.json();
   } catch (err) {
-    grid.innerHTML = "<p>Failed to load marketplace.</p>";
+    grid.innerHTML = "<div class='empty-message'>Failed to load marketplace.</div>";
+    return;
+  }
+
+  if (!Array.isArray(games) || games.length === 0) {
+    grid.innerHTML = "<div class='empty-message'>No games available yet.</div>";
     return;
   }
 
