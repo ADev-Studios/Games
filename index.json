@@ -1,0 +1,11 @@
+{
+  "name": "My Game",
+  "folder": "my_game",
+  "description": "A cool Godot game.",
+  "version": "1.0",
+  "thumbnail": "https://adev-studios.github.io/games/my_game/thumbnail.png",
+  "downloads": {
+    "windows": "https://adev-studios.github.io/games/my_game/windows.zip",
+    "linux": "https://adev-studios.github.io/games/my_game/linux.zip"
+  }
+}
