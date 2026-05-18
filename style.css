@@ -142,6 +142,28 @@ body.theme-dark {
   opacity: 0.9;
 }
 
+.search-bar {
+  padding: 10px 16px;
+  border-radius: 8px;
+  border: none;
+  outline: none;
+  font-size: 1rem;
+  width: 220px;
+  background: rgba(255,255,255,0.12);
+  color: white;
+  backdrop-filter: blur(10px);
+  transition: box-shadow .2s ease, background .2s ease;
+}
+
+.search-bar::placeholder {
+  color: #cfe3ff;
+}
+
+.search-bar:focus {
+  background: rgba(255,255,255,0.18);
+  box-shadow: 0 0 12px var(--blue-glow);
+}
+
 /* ============================
    SECTION TITLES
 ============================ */
