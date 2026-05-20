@@ -1,24 +1,13 @@
 [
   {
-    "name": "Tagkour",
-    "folder": "Tagkour",
-    "description": "A cool parkour game..",
+    "folder": "adevlauncher",
+    "name": "adevlauncher",
+    "description": "No description yet.",
     "version": "1.0",
-    "thumbnail": "https://adev-studios.github.io/Games/game-assets/tagkour/thumbnail.png",
+    "thumbnail": "",
     "downloads": {
-      "windows": "https://adev-studios.github.io/Games/game-assets/tagkour/windows.zip",
-      "linux": "https://adev-studios.github.io/Games/game-assets/tagkour/linux.zip"
-    }
-  },
-    {
-    "name": "Tagkour3",
-    "folder": "Tagkour",
-    "description": "A cool parkour game..",
-    "version": "1.0",
-    "thumbnail": "https://adev-studios.github.io/Games/game-assets/tagkour/thumbnail.png",
-    "downloads": {
-      "windows": "https://adev-studios.github.io/Games/game-assets/tagkour/windows.zip",
-      "linux": "https://adev-studios.github.io/Games/game-assets/tagkour/linux.zip"
+      "windows": "https://github.com/ADev-Studios/Games/releases/download/adevlauncher/adevlauncher-windows.zip",
+      "linux": "https://github.com/ADev-Studios/Games/releases/download/adevlauncher/adevlauncher-linux.zip"
     }
   }
 ]
