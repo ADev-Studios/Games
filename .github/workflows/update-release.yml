@@ -3,7 +3,7 @@ name: Auto Update Game Release
 on:
   push:
     paths:
-      - "builds/**"
+      - "**"   # any push triggers the workflow
 
 permissions:
   contents: write
@@ -13,9 +13,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # -----------------------------
+      # CHECKOUT REPO
+      # -----------------------------
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
 
+      # -----------------------------
+      # DOWNLOAD BUILDS (from artifact)
+      # -----------------------------
+      - name: Download game builds
+        uses: actions/download-artifact@v4
+        with:
+          name: game-builds
+          path: builds
+        continue-on-error: true
+
+      # -----------------------------
+      # SETUP NODE
+      # -----------------------------
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -24,17 +42,27 @@ jobs:
       - name: Install Octokit
         run: npm install @octokit/rest
 
+      # -----------------------------
+      # RUN RELEASE UPDATER
+      # -----------------------------
       - name: Run updater
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node .github/scripts/update-release.js
 
-      - name: Commit updated index.json and clear builds
+      # -----------------------------
+      # COMMIT UPDATED index.json
+      # -----------------------------
+      - name: Commit updated index.json
         run: |
-          rm -rf builds/*
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
           git add index.json
-          git add builds
-          git commit -m "Auto-update releases + clear builds" || echo "No changes"
+          git commit -m "Auto-update index.json" || echo "No changes"
           git push
+
+      # -----------------------------
+      # CLEAN BUILDS FOLDER
+      # -----------------------------
+      - name: Clear builds folder
+        run: rm -rf builds/*
