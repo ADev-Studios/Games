@@ -5,6 +5,7 @@ import fs from "fs";
 import path from "path";
 import { Octokit } from "@octokit/rest";
 import fetch from "node-fetch";
+import AdmZip from "adm-zip";
 
 const owner = "ADev-Studios";
 const repo = "Games";
@@ -34,7 +35,7 @@ async function uploadArtifact() {
 
   console.log("Uploading builds:", files);
 
-  // Create a new workflow dispatch to Upload Game Builds
+  // Trigger workflow
   await octokit.actions.createWorkflowDispatch({
     owner,
     repo,
@@ -44,17 +45,17 @@ async function uploadArtifact() {
 
   console.log("Triggered upload-builds workflow.");
 
-  // Upload artifact using GitHub's REST API
-  const artifactUrl = `https://uploads.github.com/repos/${owner}/${repo}/actions/artifacts?name=game-builds`;
-
-  const zip = require("adm-zip");
-  const zipper = new zip();
+  // Zip builds
+  const zipper = new AdmZip();
 
   files.forEach(file => {
     zipper.addLocalFile(path.join(buildsDir, file));
   });
 
   const zipped = zipper.toBuffer();
+
+  // Upload artifact
+  const artifactUrl = `https://uploads.github.com/repos/${owner}/${repo}/actions/artifacts?name=game-builds`;
 
   const res = await fetch(artifactUrl, {
     method: "POST",
