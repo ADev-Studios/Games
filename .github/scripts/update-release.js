@@ -10,14 +10,12 @@ const octokit = new Octokit({
   auth: process.env.GITHUB_TOKEN
 });
 
-// Detect platform from file extension
 function detectPlatform(file) {
   if (file.endsWith(".exe")) return "windows";
   if (file.endsWith(".x86_64") || file.endsWith(".bin") || file.endsWith(".sh")) return "linux";
   return null;
 }
 
-// Extract game name from filename
 function getGameName(file) {
   return file
     .replace(/\.(exe|x86_64|bin|sh)$/i, "")
@@ -25,7 +23,6 @@ function getGameName(file) {
     .toLowerCase();
 }
 
-// Create release if missing
 async function ensureRelease(game) {
   try {
     const release = await octokit.repos.getReleaseByTag({
@@ -56,7 +53,6 @@ async function run() {
 
   const games = {};
 
-  // Group files by game
   for (const file of files) {
     const platform = detectPlatform(file);
     if (!platform) continue;
@@ -76,12 +72,10 @@ async function run() {
       const zipName = `${game}-${platform}.zip`;
       const zipPath = path.join(buildsDir, zipName);
 
-      // Zip the executable
       execSync(`cd "${buildsDir}" && zip -j "${zipName}" "${file}"`);
 
       const data = fs.readFileSync(zipPath);
 
-      // Upload to release
       await octokit.repos.uploadReleaseAsset({
         url: uploadUrl,
         headers: {
@@ -95,11 +89,9 @@ async function run() {
       downloads[platform] = `https://github.com/${owner}/${repo}/releases/download/${game}/${zipName}`;
     }
 
-    // Update index.json entry
     let entry = index.find(g => g.folder === game);
 
     if (!entry) {
-      // NEW GAME — create entry
       entry = {
         folder: game,
         name: game,
@@ -111,7 +103,6 @@ async function run() {
       index.push(entry);
     }
 
-    // Only update downloads
     entry.downloads = downloads;
   }
 
