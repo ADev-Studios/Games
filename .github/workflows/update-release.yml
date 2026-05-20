@@ -1,9 +1,10 @@
 name: Auto Update Game Release
 
 on:
-  push:
-    paths:
-      - "**"   # any push triggers the workflow
+  workflow_run:
+    workflows: ["Upload Game Builds"]
+    types:
+      - completed
 
 permissions:
   contents: write
@@ -13,27 +14,18 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # -----------------------------
-      # CHECKOUT REPO
-      # -----------------------------
       - name: Checkout repo
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
 
-      # -----------------------------
-      # DOWNLOAD BUILDS (from artifact)
-      # -----------------------------
-      - name: Download game builds
+      - name: Download uploaded builds
         uses: actions/download-artifact@v4
         with:
           name: game-builds
           path: builds
         continue-on-error: true
 
-      # -----------------------------
-      # SETUP NODE
-      # -----------------------------
       - name: Setup Node
         uses: actions/setup-node@v3
         with:
@@ -42,17 +34,11 @@ jobs:
       - name: Install Octokit
         run: npm install @octokit/rest
 
-      # -----------------------------
-      # RUN RELEASE UPDATER
-      # -----------------------------
       - name: Run updater
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: node .github/scripts/update-release.js
 
-      # -----------------------------
-      # COMMIT UPDATED index.json
-      # -----------------------------
       - name: Commit updated index.json
         run: |
           git config user.name "github-actions"
@@ -61,8 +47,5 @@ jobs:
           git commit -m "Auto-update index.json" || echo "No changes"
           git push
 
-      # -----------------------------
-      # CLEAN BUILDS FOLDER
-      # -----------------------------
       - name: Clear builds folder
         run: rm -rf builds/*

@@ -1,0 +1,21 @@
+name: Upload Game Builds
+
+on:
+  push:
+    paths:
+      - "**"   # any push triggers this
+
+jobs:
+  upload-builds:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
+
+      - name: Upload builds folder (if exists)
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-builds
+          path: builds/*
+        continue-on-error: true
