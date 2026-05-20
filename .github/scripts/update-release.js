@@ -24,6 +24,25 @@
       .toLowerCase();
   }
 
+  function findThumbnail(game) {
+    const assetsDir = path.join(process.cwd(), "builds", "assets");
+
+    if (!fs.existsSync(assetsDir)) return "";
+
+    const gameThumb = path.join(assetsDir, `${game}.png`);
+    const defaultThumb = path.join(assetsDir, "default.png");
+
+    if (fs.existsSync(gameThumb)) {
+      return `assets/${game}.png`;
+    }
+
+    if (fs.existsSync(defaultThumb)) {
+      return `assets/default.png`;
+    }
+
+    return "";
+  }
+
   async function ensureRelease(game) {
     try {
       const release = await octokit.repos.getReleaseByTag({
@@ -105,6 +124,9 @@
       }
 
       entry.downloads = downloads;
+
+      // NEW: thumbnail support
+      entry.thumbnail = findThumbnail(game);
     }
 
     fs.writeFileSync(indexPath, JSON.stringify(index, null, 2));
