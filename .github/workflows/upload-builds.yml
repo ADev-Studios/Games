@@ -1,9 +1,10 @@
 name: Upload Game Builds
 
 on:
+  workflow_dispatch:        # REQUIRED for upload-builds.js to trigger this workflow
   push:
     paths:
-      - "**"   # any push triggers this
+      - "**"                # Also runs on any push (optional but useful)
 
 jobs:
   upload-builds:
