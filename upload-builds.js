@@ -1,11 +1,11 @@
 // upload-builds.js
-// Uploads local builds to GitHub as an artifact without committing them.
+// Uploads local builds to GitHub as an artifact using GitHub's container API.
 
 import fs from "fs";
 import path from "path";
 import { Octokit } from "@octokit/rest";
 import fetch from "node-fetch";
-import AdmZip from "adm-zip";
+import FormData from "form-data";
 
 const owner = "ADev-Studios";
 const repo = "Games";
@@ -35,7 +35,59 @@ async function uploadArtifact() {
 
   console.log("Uploading builds:", files);
 
-  // Trigger workflow
+  // 1. Create artifact container
+  const container = await octokit.request(
+    "POST /repos/{owner}/{repo}/actions/artifacts",
+    {
+      owner,
+      repo,
+      name: "game-builds",
+      headers: { "X-GitHub-Api-Version": "2022-11-28" }
+    }
+  );
+
+  const containerId = container.data.id;
+
+  // 2. Upload each file using multipart/form-data
+  for (const file of files) {
+    const filePath = path.join(buildsDir, file);
+    const fileData = fs.readFileSync(filePath);
+
+    const form = new FormData();
+    form.append("file", fileData, file);
+
+    const uploadUrl = container.data.file_container_url;
+
+    const res = await fetch(uploadUrl, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        ...form.getHeaders()
+      },
+      body: form
+    });
+
+    if (!res.ok) {
+      console.error("Upload failed:", await res.text());
+      process.exit(1);
+    }
+  }
+
+  // 3. Finalize artifact
+  await octokit.request(
+    "PATCH /repos/{owner}/{repo}/actions/artifacts/{artifact_id}",
+    {
+      owner,
+      repo,
+      artifact_id: containerId,
+      size_in_bytes: 1, // GitHub ignores this value
+      headers: { "X-GitHub-Api-Version": "2022-11-28" }
+    }
+  );
+
+  console.log("Builds uploaded successfully.");
+
+  // 4. Trigger workflow
   await octokit.actions.createWorkflowDispatch({
     owner,
     repo,
@@ -44,35 +96,6 @@ async function uploadArtifact() {
   });
 
   console.log("Triggered upload-builds workflow.");
-
-  // Zip builds
-  const zipper = new AdmZip();
-
-  files.forEach(file => {
-    zipper.addLocalFile(path.join(buildsDir, file));
-  });
-
-  const zipped = zipper.toBuffer();
-
-  // Upload artifact
-  const artifactUrl = `https://uploads.github.com/repos/${owner}/${repo}/actions/artifacts?name=game-builds`;
-
-  const res = await fetch(artifactUrl, {
-    method: "POST",
-    headers: {
-      Authorization: `Bearer ${token}`,
-      "Content-Type": "application/zip",
-      "Content-Length": zipped.length
-    },
-    body: zipped
-  });
-
-  if (!res.ok) {
-    console.error("Artifact upload failed:", await res.text());
-    process.exit(1);
-  }
-
-  console.log("Builds uploaded successfully.");
 }
 
 uploadArtifact();
