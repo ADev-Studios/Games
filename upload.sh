@@ -1,22 +1,19 @@
 #!/bin/bash
+echo "=== ADev Release Sync ==="
 
-echo "=== ADev Game Build Uploader ==="
-
-# Check for GITHUB_TOKEN
 if [ -z "$GITHUB_TOKEN" ]; then
-  echo "ERROR: GITHUB_TOKEN is not set."
-  echo "Set it with: export GITHUB_TOKEN=YOUR_TOKEN"
+  echo "ERROR: GITHUB_TOKEN not set."
   exit 1
 fi
 
-# Check for Node
-if ! command -v node &> /dev/null; then
-  echo "ERROR: Node.js is not installed."
-  exit 1
-fi
+read -p "Enter the GitHub release URL: " RELEASE_URL
+export RELEASE_URL
 
-# Run uploader
-echo "Uploading builds..."
+echo ""
+echo "Upload your executables to the release now."
+echo "Press ENTER when you're done."
+read
+
 node upload-builds.js
 
 echo "Done."
